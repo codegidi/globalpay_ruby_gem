@@ -21,8 +21,21 @@ Or install it yourself as:
     $ gem install globalpay_ruby_gem
 
 ## Usage
+*	The steps for carrying out a transaction is as follows:
+* 	1. Get an access token by calling the Client Authorisation method
+*	2. Use the access_token to send initiate your transaction by calling the Transaction initiaion method
+* 	3. Redirect to GlobalPay transaction interface using the redirectUri retured in the Transaction initiation call
+* 	4. After transaction has been done, you will be redirected to the provided redirectUrl provided with the transactionReference as a querystring
+*	5. Validate the result by using the Retrieve transaction call
 
-TODO: Write usage instructions here
+### Client Authentication
+	globalpay_ruby_gem.authenticate(username,password,client_id,client_secret)
+
+### Transaction Initialization
+	globalpay_ruby_gem.initialize(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)
+
+### Transaction Verification
+	globalpay_ruby_gem.retrieve(access_token,merchantid,merchantreference,transactionrequest)
 
 ## Development
 

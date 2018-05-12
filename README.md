@@ -32,7 +32,9 @@ Or install it yourself as:
 	globalpay_ruby_gem.authenticate(username,password,client_id,client_secret)
 
 ### Transaction Initialization
-	globalpay_ruby_gem.initialize(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)
+	response = globalpay_ruby_gem.initialize(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)
+	
+
 
 ### Transaction Verification
 	globalpay_ruby_gem.retrieve(access_token,merchantid,merchantreference,transactionrequest)

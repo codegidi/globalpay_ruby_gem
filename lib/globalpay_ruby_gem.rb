@@ -9,7 +9,7 @@ module GlobalpayRubyGem
 
   def authentication(*args)
     if args.size == 4
-      GlobalpayRubyGem.authenticate_client(args[0],args[1],args[2],args[3])
+      GlobalpayRubyGem.authenticate_client(args[0],args[1])
     else
       response = "{'error':'parameters miss match, expecting 4 paramters'}"
     end
@@ -32,10 +32,10 @@ module GlobalpayRubyGem
   end
 
 
-  def authenticate_client(username,password,client_id,client_secret)
+  def authenticate_client(client_id,client_secret)
     http = HTTPClient.new
     body = { 'username' => username, 'password' => password, 'client_id' => client_id,
-             'client_secret' => client_secret, 'grant_type' => 'password', 'scope' => 'globalpay_api'}
+             'client_secret' => client_secret, 'grant_type' => 'client_credentials', 'scope' => 'globalpay_api'}
     res = http.post(TOKEN_URL, body)
     if res.successful?(res.status)
       res.body

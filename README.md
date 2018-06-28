@@ -29,7 +29,7 @@ Or install it yourself as:
 *	5. Validate the result by using the Retrieve transaction call
 
 ### Client Authentication
-	globalpay_ruby_gem.authenticate(username,password,client_id,client_secret)
+	globalpay_ruby_gem.authenticate(client_id,client_secret)
 
 ### Transaction Initialization
 	response = globalpay_ruby_gem.initialize(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)

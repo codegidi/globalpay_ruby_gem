@@ -9,7 +9,7 @@ module GlobalpayRubyGem
 
   def authentication(*args)
     if args.size == 4
-      GlobalpayRubyGem.authenticate_client(args[0],args[1])
+      GlobalpayRubyGem.authenticate_client(args[0],args[1],args[2])
     else
       response = "{'error':'parameters miss match, expecting 4 paramters'}"
     end
@@ -17,7 +17,7 @@ module GlobalpayRubyGem
 
   def initialize(*args)
     if args.size == 7
-      GlobalpayRubyGem.initialize_transaction(args[0],args[1],args[2],args[3],args[4],args[5],args[6])
+      GlobalpayRubyGem.initialize_transaction(args[0],args[1],args[2],args[3],args[4],args[5],args[6],args[7],args[8],args[9],args[10])
     else
       response = "{'error':'parameters miss match, expecting 7 paramters'}"
     end
@@ -25,18 +25,24 @@ module GlobalpayRubyGem
 
   def retrieve(*args)
     if args.size == 4
-      GlobalpayRubyGem.retrieve_transaction(args[0],args[1],args[2],args[3])
+      GlobalpayRubyGem.retrieve_transaction(args[0],args[1],args[2],args[3],args[4])
     else
       response = "{'error':'parameters miss match, expecting 4 paramters'}"
     end
   end
 
 
-  def authenticate_client(client_id,client_secret)
+  def authenticate_client(client_id,client_secret,is_live)
     http = HTTPClient.new
-    body = { 'username' => username, 'password' => password, 'client_id' => client_id,
-             'client_secret' => client_secret, 'grant_type' => 'client_credentials', 'scope' => 'globalpay_api'}
-    res = http.post(TOKEN_URL, body)
+    body = 'client_id='+client_id+'&client_secret='+client_secret+'grant_type=client_credentials'
+    header = { 'Content-Type' => 'application/x-www-form-urlencoded'}
+
+    if is_live == "True"
+      res = http.post(TOKEN_URL_LIVE, body)
+    else
+      res = http.post(TOKEN_URL_STAGING, body)
+    end
+
     if res.successful?(res.status)
       res.body
     else
@@ -44,13 +50,19 @@ module GlobalpayRubyGem
     end
   end
 
-  def initialize_transaction(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)
+  def initialize_transaction(access_token,returnurl,merchantreference,merchantid,description,currencycode,totalamount,customeremail,customernumber,customerfirstname,customerlastname)
     http = HTTPClient.new
-    body = { 'returnurl' => returnurl, 'merchantreference' => merchantreference, 'description' => description,
-             'currencycode' => currencycode, 'totalamount' => totalamount, 'customer' => customer,
-             'customerip' => '', 'paymentmethod' => 'card','transactionType' => 'Payment', 'connectionmode' => 'redirect'}
+    body = { 'returnurl' => returnurl,'customerip' => '', 'merchantreference' => merchantreference, 'merchantid' => merchantid, 'description' => description,
+             'currencycode' => currencycode, 'totalamount' => totalamount, 'customer' => { 'email' => customeremail,'firstname' => customerfirstname, 'lastname' => customerlastname, 'mobile' => customernumber },
+             'paymentmethod' => 'card','transactionType' => 'Payment', 'connectionmode' => 'redirect', 'product' => [{'name' => description, 'unitprice' => totalamount,'quantity' => '1'}]}
     header = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}"}
-    res = http.post(BASE_URL + '/api/v3/Payment/SetRequest', body,header)
+
+    if is_live == "True"
+      res = http.post(BASE_URL_LIVE + '/api/v3/Payment/SetRequest', body,header)
+    else
+      res = http.post(BASE_URL_STAGING + '/api/v3/Payment/SetRequest', body,header)
+    end
+
     if res.successful?(res.status)
       res.body
     else
@@ -58,11 +70,17 @@ module GlobalpayRubyGem
     end
   end
 
-  def retrieve_transaction(access_token,merchantid,merchantreference,transactionrequest)
+  def retrieve_transaction(access_token,merchantid,merchantreference,transactionrequest,islive)
     http = HTTPClient.new
     body = { 'merchantId' => merchantid, 'merchantreference' => merchantreference, 'transactionRequest' => transactionrequest}
     header = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}"}
-    res = http.post(BASE_URL + '/api/v3/Payment/Retrieve', body,header)
+
+    if is_live == "True"
+      res = http.post(BASE_URL_LIVE + '/api/v3/Payment/Retrieve', body,header)
+    else
+      res = http.post(BASE_URL_STAGING + '/api/v3/Payment/Retrieve', body,header)
+    end
+
     if res.successful?(res.status)
       res.body
     else

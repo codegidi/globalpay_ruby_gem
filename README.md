@@ -1,8 +1,7 @@
 # GlobalpayRubyGem
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/globalpay_ruby_gem`. To experiment with that code, run `bin/console` for an interactive prompt.
+GlobalpayRubyGem is a Ruby Gem for using the [Globalpay] API
 
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -29,15 +28,17 @@ Or install it yourself as:
 *	5. Validate the result by using the Retrieve transaction call
 
 ### Client Authentication
-	globalpay_ruby_gem.authenticate(client_id,client_secret)
+	globalpay_ruby_gem.authenticate(client_id,client_secret,is_live{Bool isLive : #True for for live enviroment and false for staging default value false});
+})
+
 
 ### Transaction Initialization
-	response = globalpay_ruby_gem.initialize(access_token,returnurl,merchantreference,description,currencycode,totalamount,customer)
-	
+	response = globalpay_ruby_gem.initialize_transaction(access_token,returnurl,merchantreference,merchantid,description,currencycode{eg NGN for naira},totalamount,customeremail,customernumber,customerfirstname,customerlastname,is_live{Bool isLive : #True for for live enviroment and false for staging default value false});
+                                                                                                                                                                                                                 })
 
 
 ### Transaction Verification
-	globalpay_ruby_gem.retrieve(access_token,merchantid,merchantreference,transactionrequest)
+	globalpay_ruby_gem.retrieve(access_token,merchantid,merchantreference,transactionrequest,is_live{Bool isLive : #True for for live enviroment and false for staging default value false})
 
 ## Development
 

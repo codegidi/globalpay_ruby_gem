@@ -1,6 +1,10 @@
 module Const
-	BASE_URL_LIVE = 'https://globalpay.azurewebsites.net'
-	BASE_URL_STAGING = 'https://globalpay.azurewebsites.net'
-	TOKEN_URL_LIVE ='http://globalpayauthserver.azurewebsites.net/connect/token'
-  TOKEN_URL_STAGING ='http://globalpayauthserver.azurewebsites.net/connect/token'
+	BASE_URL_LIVE = 'https://api.globalpay.com.ng/v2/PaymentGateway/PaymentGatewayCapture'
+	BASE_URL_STAGING = 'https://gpaygatewayapi.azurewebsites.net/v2/PaymentGateway/PaymentGatewayCapture'
+	TOKEN_URL_LIVE ='https://auth.globalpay.com.ng'
+	TOKEN_URL_STAGING ='https://gpayauthorisation.azurewebsites.net/'
 end
+
+
+
+ 

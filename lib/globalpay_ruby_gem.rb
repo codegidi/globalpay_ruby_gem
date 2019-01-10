@@ -58,9 +58,9 @@ module GlobalpayRubyGem
     header = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}"}
 
     if is_live
-      res = http.post(BASE_URL_LIVE + '/api/v3/Payment/SetRequest', body,header)
+      res = http.post(BASE_URL_LIVE + '/SetRequest', body,header)
     else
-      res = http.post(BASE_URL_STAGING + '/api/v3/Payment/SetRequest', body,header)
+      res = http.post(BASE_URL_STAGING + '/SetRequest', body,header)
     end
 
     if res.successful?(res.status)
@@ -76,9 +76,9 @@ module GlobalpayRubyGem
     header = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}"}
 
     if is_live
-      res = http.post(BASE_URL_LIVE + '/api/v3/Payment/Retrieve', body,header)
+      res = http.post(BASE_URL_LIVE + '/Retrieve', body,header)
     else
-      res = http.post(BASE_URL_STAGING + '/api/v3/Payment/Retrieve', body,header)
+      res = http.post(BASE_URL_STAGING + '/Retrieve', body,header)
     end
 
     if res.successful?(res.status)
